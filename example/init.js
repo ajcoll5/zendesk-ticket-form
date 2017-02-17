@@ -10,9 +10,6 @@ $(function(){
   });
   var url = "https://example.com/zendesk.php";
   var api = ticketAPI.new(url, errorHandler);
-  // in the below callback functions, 'this' contains the selected elements;
-  // this.form, this.name, this.requester, this.subject, and this.description
-  // will all correspond to their selected jQuery objects
   ticketForm.new({
     form: "#ticket-form",
     name: "#name",
@@ -28,12 +25,12 @@ $(function(){
     console.log(res);
   })
   .setCallback("handleErrors", function (errors) {
-    var el, elements = this;
+    var elements = this;
     errors.forEach(function (err) {
-      el = elements[err.name];
+      var el = elements[err.name];
       el.css("border-color", "red");
       alert(err.message);
     });
   })
-  .init(); // attach event listener
+  .init();
 });
