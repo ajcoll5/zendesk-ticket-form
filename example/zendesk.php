@@ -1,22 +1,10 @@
 <?php
-include("zendesk_config.php");
+define("ZDAPIKEY", "<YOUR-API-KEY>");
+define("ZDUSER", "<YOUR-USER-EMAIL>");
+define("ZDURL", "https://<YOUR-SUBDOMAIN>.zendesk.com/api/v2");
+define("VALID_EMAIL_REGEX", '/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/iD');
 
-/* Notes
-* This script expects there to be a zendesk_config.php file in the same directory as this file.
-* Remember: ZDURL needs to be of the form https://subdomain.zendesk.com/api/v2 with no trailing slash
-*/
-
-$http_origin = $_SERVER['HTTP_ORIGIN'];
-
-if ($http_origin == "<YOUR-ALLOWED-ORIGIN-ADDRESS>")
-{
-  header("Access-Control-Allow-Origin: *");
-}
-else
-{
-	echo "403 FORBIDDEN";
-	return;
-}
+/* Remember: ZDURL needs to be of the form https://subdomain.zendesk.com/api/v2 with no trailing slash */
 
 function isBlank($val) {
 	return empty( trim($val) );
@@ -33,7 +21,7 @@ function createErrorObj($name, $message) {
 }
 
 function hasErrors($post) {
-  
+
   /* Edit the values below with your own error messages. */
 	$blankName = "name can't be blank";
 	$blankRequester = "email can't be blank";

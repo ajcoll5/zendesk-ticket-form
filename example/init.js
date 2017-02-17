@@ -1,7 +1,6 @@
 "use strict";
 
 $(function(){
-  // configure components
   var errorHandler = ticketErrors.new({
     blankName: "name can't be blank",
     blankRequester: "email can't be blank",
@@ -9,8 +8,11 @@ $(function(){
     blankSubject: "must choose a reason",
     blankDescription: "details can't be blank"
   });
-  var address = "//example.com/zendesk.php";
-  var api = ticketAPI.new(address, errorHandler);
+  var url = "https://example.com/zendesk.php";
+  var api = ticketAPI.new(url, errorHandler);
+  // in the below callback functions, 'this' contains the selected elements;
+  // this.form, this.name, this.requester, this.subject, and this.description
+  // will all correspond to their selected jQuery objects
   ticketForm.new({
     form: "#ticket-form",
     name: "#name",
@@ -18,9 +20,6 @@ $(function(){
     subject: "#reason",
     description: "#details"
   }, api)
-  // in the below functions, 'this' contains the above selected elements;
-  // this.form, this.name, this.requester, this.subject, and this.description
-  // will all correspond to their selected jQuery objects
   .setCallback("handleSuccess", function (ticket) {
     alert("Ticket sumbitted! Your ticket ID is " + ticket.id);
   })

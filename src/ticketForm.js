@@ -19,9 +19,9 @@ var ticketForm = (function ($, window, document, undefined) {
 
     _this = {
       init: function () {
+        api.setCallbacks(callbacks);
         form.submit(function (e) {
           e.preventDefault(); e.stopPropagation();
-          api.setCallbacks(callbacks);
           api.submit( gatherValues() );
         });
       },
