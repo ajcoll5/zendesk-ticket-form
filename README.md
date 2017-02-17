@@ -14,6 +14,10 @@ The components also rely on some PHP server-side error handling and request send
 
 Using these components requires that you have jQuery enabled on the site in which the form resides, and that you have a specific PHP file on an available server. You also must have a valid Zendesk account and an API key to interface with that account.
 
+### Inclusion
+
+Grab [the minified script](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/build/jztf.min.js), include it in your site, customize the PHP script, and write your initialization script.
+
 ### Examples
 
 Check [the examples folder](https://github.com/dunxtand/jquery-zendesk-ticket-form/tree/master/example) for a a sample form, initialization script, and PHP file.
