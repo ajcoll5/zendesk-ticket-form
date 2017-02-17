@@ -12,7 +12,7 @@ $(function(){
   var address = "//example.com/zendesk.php";
   var api = ticketAPI.new(address, errorHandler);
   ticketForm.new({
-    form: "#support-ticket",
+    form: "#ticket-form",
     name: "#name",
     requester: "#email",
     subject: "#reason",
