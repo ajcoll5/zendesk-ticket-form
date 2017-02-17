@@ -16,7 +16,7 @@ Using these components requires that you have jQuery enabled on the site in whic
 
 ### Examples
 
-Check [the examples folder](/dunxtand/jquery-zendesk-ticket-form/tree/master/example) for a a sample form, initialization script, and PHP file.
+Check [the examples folder](https://github.com/dunxtand/jquery-zendesk-ticket-form/tree/master/example) for a a sample form, initialization script, and PHP file.
 
 ##
 
