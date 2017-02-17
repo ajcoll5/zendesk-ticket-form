@@ -97,11 +97,21 @@ var form = ticketForm.new(selectors, api);
 
 #### #elements
 
-This object has properties **form**, **name**, **requester**, **subject**, and **description** (all of which contain jQuery objects that correspond to the elements you've selected), which you can use to inspect which elements you've selected, and which is also available in callback functions via the **this** keyword.
+This object has properties **form**, **name**, **requester**, **subject**, and **description** (all of which contain jQuery objects that correspond to the elements you've selected), which you can use to inspect which elements you've selected, and which is also available in callback functions via the **this** keyword. In the case of the example form in this repo, it would look like this:
+
+```javascript
+{
+  form: [form#ticket-form],
+  name: [input#name],
+  requester: [input#requester],
+  subject: [select#reason],
+  description: [textarea#details]
+}
+```
 
 #### #setCallback
 
-This method takes two arguments. The first is a string with the name of the callback function, the second is the function to be executed. The form can be manipulated in these functions via the **this** keyword, which will be the 'elements object described above.
+This method takes two arguments. The first is a string with the name of the callback function, the second is the function to be executed. The form can be manipulated in these functions via the **this** keyword, which will be the 'elements' object described above.
 
 You must define three callbacks: **handleSuccess**, **handleFailure**, and **handleErrors**:
 
