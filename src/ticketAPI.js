@@ -19,7 +19,7 @@ var ticketAPI = (function ($, window, document, undefined) {
       } else if (!!json.errors) {
         callbacks.handleErrors(json.errors);
       } else {
-        callbacks.handleFailure();
+        callbacks.handleFailure(res);
       }
     }
 
