@@ -8,8 +8,7 @@ $(function(){
     blankSubject: "must choose a reason",
     blankDescription: "details can't be blank"
   });
-  var url = "https://example.com/zendesk.php";
-  var api = ticketAPI.new(url, errorHandler);
+  var api = ticketAPI.new("https://example.com/zendesk.php", errorHandler);
   ticketForm.new({
     form: "#ticket-form",
     name: "#name",
