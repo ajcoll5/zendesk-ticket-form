@@ -2,188 +2,153 @@
 
 ### Summary
 
-These are three JavaScript components, built on top of [jQuery](http://jquery.com/), that enable quicker development of a [Zendesk ticket](https://support.zendesk.com/hc/en-us/articles/203690856-Working-with-tickets) submission form. The components are:
+This a [jQuery](http://jquery.com/) plugin that allows for quicker development of a [Zendesk ticket](https://support.zendesk.com/hc/en-us/articles/203690856-Working-with-tickets) submission form.
 
-* **ticketErrors** (error handling of form inputs)
-* **ticketAPI** (packaging and sending of form inputs)
-* **ticketForm** (gathering form inputs and managing form state)
-
-The components also rely on some PHP server-side error handling and request sending, extended from [this script](https://github.com/apanzerj/Former-For-Zendesk/blob/Lesson-1-Branch/former.php).
-
-### Requirements
-
-Using these components requires that you have jQuery enabled on the site in which the form resides, and that you have a specific PHP file on an available server. You also must have a valid Zendesk account and an API key to interface with that account.
+The plugin relies on a specific form element configuration, and on some PHP server-side error handling and request sending, extended from [this script](https://github.com/apanzerj/Former-For-Zendesk/blob/Lesson-1-Branch/former.php).
 
 ### Inclusion
 
-Grab [the minified script](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/build/jztf.min.js), include it in your site, customize the PHP script, and write your initialization script.
+Make sure you have jQuery enabled on your site:
+
+````html
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+````
+
+Grab [the minified script](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/build/jztf.min.js) and include it on your site:
+
+````html
+<script src="/your/path/to/jztf.min.js"></script>
+````
+
+Include [zendesk.php](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/example/zendesk.php) and your customized [config.php](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/example/config.php) on a server, customize your [form](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/example/form.html), and write your [initialization](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/example/init.js).
 
 ### Examples
 
-Check [the examples folder](https://github.com/dunxtand/jquery-zendesk-ticket-form/tree/master/example) for a a sample form, initialization script, and PHP file.
+Check [the examples folder](https://github.com/dunxtand/jquery-zendesk-ticket-form/tree/master/example) for a a model form, initialization script, and required PHP files.
+
+Check the [Hickies support page](https://www.hickies.com/blogs/support) for an example of this plugin being used on a live site.
 
 ##
 
-### ticketErrors
+### Configuration
 
-This object has only one method, **#new**.
+#### PHP
 
-Call this method, passing as an argument object with these keys:
+Copy over [zendesk.php](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/example/zendesk.php) and [config.php](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/example/config.php) *into the same folder* on your server. Edit the values in config.php with your own Zendesk **api key**, **user email**, and **api address**, and your own error messages:
 
-* **blankName** (message to be returned when 'name' input is blank)
-* **blankRequester** (message to be returned when 'requester' input is blank)
-* **invalidRequester** (message to be returned when 'requester' input is not a valid email)
-* **blankSubject** (message to be returned when 'subject' input is blank)
-* **blankDescription** (message to be returned when 'description' input is blank)
+````php
+<?php
+define("ZDAPIKEY", "<YOUR-API-KEY>");
+define("ZDUSER", "<YOUR-USER-EMAIL>");
+define("ZDURL", "https://<YOUR-SUBDOMAIN>.zendesk.com/api/v2");
+define("BLANK_NAME", "name can't be blank");
+define("BLANK_EMAIL", "email can't be blank");
+define("INVALID_EMAIL", "email must be valid");
+define("BLANK_REASON", "must choose a reason");
+define("BLANK_DESCRIPTION", "description can't be blank");
+?>
+````
 
-```javascript
-var messages = {
-  blankName: "name can't be blank",
-  blankRequester: "email can't be blank",
-  invalidRequester: "email must be valid",
-  blankSubject: "must choose a reason",
-  blankDescription: "details can't be blank"
-}
+These error messages correspond to the inputs on the HTML form that you'll make.
 
-var errorHandler = ticketErrors.new(messages);
-```
+#### Submission Form
 
-...to create an object with a **#validate** method, which will be used internally by the ticketAPI object.
+Create a form on your site that has four inputs within it, respectively given ids **#name**, **#email**, **#subject**, and **#description**. Give each of these elements the data attributes specified below.
 
-##
+##### Form
 
-### ticketAPI
+Give the form element a **data-url** attribute that points to the location of your **zendesk.php** script.
 
-This object has only one method, **#new**.
+##### Name
 
-Call this method, passing in as arguments the url pointing to your PHP script and the previously defined ticketErrors object:
+Give the input corresponding to the customer's name an id of **name** and a **data-blank** attribute that contains an error message for when the field is left unfilled.
 
-```javascript
-var url = "https://example.com/zendesk.php";
-var api = ticketAPI.new(url, errorHandler);
-```
+##### Email
 
-..to create an object with **#submit** and **#setCallbacks** methods, which will be used internally by the ticketForm object.
+Give the input corresponding to the customer's email an id of **email**, a **data-blank** attribute that contains an error message for when the field is left unfilled, and a **data-invalid** attribute that contains an error message for when the field's value is not a valid email.
 
-##
+##### Reason
 
-### ticketForm
+Give the select element corresponding to the subject of the customer's ticket an id of **reason** and a **data-blank** attribute that contains an error message for when the field is left unfilled.
 
-This object has only one method, **#new**.
+##### Description
 
-Call this method, passing in as arguments an object with keys:
+Give the textarea element corresponding to the extra information about the customer's problem an id of **description** and a **data-blank** attribute that contains an error message for when the field is left unfilled.
 
-* **form** (selector to find your form element)
-* **name** (selector to find the 'name' input within the form)
-* **requester** (selector to find the 'requester' input within the form)
-* **subject** (selector to find the 'subject' input within the form)
-* **description** (selector to find the 'description' input within the form)
+##### The end result should look like [this](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/example/form.html):
 
-...and the previously defined ticketAPI object:
+````html
+<form id="ticket-form" data-url="https://example.com/zendesk.php">
+  <label for="name">Enter your name:</label>
+  <input type="text" id="name" data-blank="name can't be blank">
 
-```javascript
-var selectors = {
-  form: "#ticket-form",
-  name: "#name",
-  requester: "#email",
-  subject: "#reason",
-  description: "#details"
-}
+  <label for="email">Enter your email address:</label>
+  <input type="text" id="email" data-blank="email can't be blank" data-invalid="email must be valid">
 
-var form = ticketForm.new(selectors, api);
-```
+  <label for="reason">Choose your reason for contacting us:</label>
+  <select id="reason" data-blank="must choose a reason">
+    <option selected disabled>Pick one.</option>
+    <option>Option One</option>
+    <option>Option Two</option>
+    <option>Option Three</option>
+  </select>
 
-...to create an object with properties:
+  <label for="description">Tell us anything else we need to know:</label>
+  <textarea id="description" data-blank="details can't be blank"></textarea>
+</form>
+````
 
-* **#elements** (object that stores references to the selected form and its elements)
-* **#setCallback** (method that sets callbacks to be used during the life of the request submission)
-* **#init** (method that starts up the functionality of the components)
+### Initialization
 
-#### #elements
+Now all you need to do is select your form and call the **zendeskTicketForm** method on it. The method takes as an argument an object that contains three functions: **handleSuccess**, **handleFailure**, and **handleErrors**.
 
-This object has properties **form**, **name**, **requester**, **subject**, and **description** (all of which contain jQuery objects that correspond to the elements you've selected), which you can use to inspect which elements you've selected, and which is also available in callback functions via the **this** keyword. In the case of the example form in this repo, it would look like this:
-
-```javascript
-{
-  form: [form#ticket-form],
-  name: [input#name],
-  requester: [input#requester],
-  subject: [select#reason],
-  description: [textarea#details]
-}
-```
-
-#### #setCallback
-
-This method takes two arguments. The first is a string with the name of the callback function, the second is the function to be executed. The form can be manipulated in these functions via the **this** keyword, which will be the 'elements' object described above.
-
-You must define three callbacks: **handleSuccess**, **handleFailure**, and **handleErrors**:
+````javascript
+$("#ticket-form").zendeskTicketForm({
+  handleSuccess: function (ticket) {
+    alert("Ticket sumbitted! Your ticket ID is " + ticket.id);
+  },
+  handleFailure: function (res) {
+    alert("Sorry, something went wrong.");
+    console.log(res);
+  },
+  handleErrors: function (errors) {
+    errors.forEach(function (err) {
+      var el = this[err.name];
+      el.css("border-color", "red");
+      alert(err.message);
+    }, this);
+  }
+})
+````
 
 * **handleSuccess** is called when the PHP script successfully submits your ticket. The argument to this function will be an object with one property, the ID of the successfully submitted ticket.
 
-```javascript
-form.setCallback("handleSuccess", function (ticket) {
-   alert("Ticket sumbitted! Your ticket ID is " + ticket.id);
-});
-```
-
 * **handleFailure** is called when the request fails. The argument to this function is the response body.
-
-```javascript
-form.setCallback("handleFailure", function (res) {
-  alert("Sorry, something went wrong.");
-  console.log(res);
-});
-```
 
 * **handleErrors** is called when your ticketErrors object finds errors, or when your PHP script returns an object with key 'errors'. The argument to this function is an array filled with objects and looks like this:
 
 ```javascript
-[
-  {
-    name: "name",
-    message: "name can't be blank"
-  },
-  {
-    name: "requester",
-    message: "email must be valid"
-  }
-]
+[{name: "name", message: "name can't be blank"}, {name: "email", message: "email must be valid"}]
 ```
 
-The 'name' property corresponds a key on the 'elements' object, so you can access the appropriate form input if you want to restyle it or attach the error message to it.
+Inside each of these functions, you can access the selected form element and all of its inputs throught the **this** keyword:
 
-```javascript
-form.setCallback("handleErrors", function (errors) {
-  var el, elements = this;
+````javascript
+this              // returns [form#ticket-form]
+this.name         // returns [input#name]
+this.email        // returns [input#email]
+this.reason       // returns [select#reason]
+this.description  // returns [textarea#description]
+````
+
+Each of the 'name' properties on the objects in the 'errors' array correspondings to a property on **this**, so you can find the input that each error message belongs to:
+
+````javascript
+function (errors) {
   errors.forEach(function (err) {
-    el = elements[err.name];
+    var el = this[err.name]; // use 'this' and 'err.name' to find the field with errors
     el.css("border-color", "red");
     alert(err.message);
-  });
-});
-```
-
-#### #init
-
-This method should be called after all three callbacks have been defined. It gives the callbacks to its ticketAPI object and sets a submission event listener on the selected form.
-
-```javascript
-form.init();
-```
-
-##
-
-### Notes
-
-##### Input Naming
-
-The 'name', 'requester', 'subject', and 'description' nomenclature correspondings the fields that Zendesk accepts in its ticket API. You can name them whatever you want within your form.
-
-##### Requester == Email
-
-These components assume that the 'requester' input will be an email; the error handler checks to see if it is a valid one.
-
-##### PHP
-
-The PHP script may seem like an unnecessary extra step (as opposed to simply submitting to the Zendesk API directly from the JavaScript), but it adds security and provides a second line of defense against errors.
+  }, this);
+}
+````

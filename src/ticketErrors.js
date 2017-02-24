@@ -1,5 +1,11 @@
-var ticketErrors = (function ($, window, document, undefined) {
+module.exports = (function () {
   var validEmailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  var nameMap = {
+    name: "name",
+    requester: "email",
+    subject: "reason",
+    description: "description"
+  }
   function isBlank (val) {
     return !val || !val.trim();
   }
@@ -11,13 +17,13 @@ var ticketErrors = (function ($, window, document, undefined) {
   }
   function createBlankValError (name, messages) {
     return {
-      name: name,
+      name: nameMap[name],
       message: messages[ getBlankValMessagesKey(name) ]
     }
   }
-  function createInvalidRequesterError (messages) {
+  function createInvalidRequesterError (name, messages) {
     return {
-      name: "requester",
+      name: nameMap[name],
       message: messages.invalidRequester
     }
   }
@@ -29,7 +35,7 @@ var ticketErrors = (function ($, window, document, undefined) {
         validation.errors.push(errorObj);
       }
       else if (name === "requester" && isInvalidEmail(values[name])) {
-        errorObj = createInvalidRequesterError(messages);
+        errorObj = createInvalidRequesterError(name, messages);
         validation.errors.push(errorObj);
       }
     }
@@ -46,31 +52,7 @@ var ticketErrors = (function ($, window, document, undefined) {
     }
   }
 
-  function checkArgs (messages) {
-    if (!messages) {
-      throw new Error("You must provide a 'messages' object argument to #new");
-    }
-    if (!messages.blankName) {
-      throw new Error("You must provide a 'blankName' property to the 'messages' object");
-    }
-    if (!messages.blankRequester) {
-      throw new Error("You must provide a 'blankRequester' property to the 'messages' object");
-    }
-    if (!messages.invalidRequester) {
-      throw new Error("You must provide a 'invalidRequester' property to the 'messages' object");
-    }
-    if (!messages.blankSubject) {
-      throw new Error("You must provide a 'blankSubject' property to the 'messages' object");
-    }
-    if (!messages.blankDescription) {
-      throw new Error("You must provide a 'blankDescription' property to the 'messages' object");
-    }
-  }
-
   return {
-    new: function (messages) {
-      checkArgs(messages);
-      return initializeObject(messages);
-    }
+    new: initializeObject
   }
-})(jQuery, window, document);
+})();

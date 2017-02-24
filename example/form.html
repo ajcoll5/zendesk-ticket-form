@@ -1,29 +1,18 @@
-<!--
-  Note: the 'subject' input (#reason) does not have to be a <select>,
-  but it can be useful if you want to restrict your ticket topics
-  to a handful of predefined categories.
--->
+<form id="ticket-form" data-url="https://example.com/zendesk.php">
+  <label for="name">Enter your name:</label>
+  <input type="text" id="name" data-blank="name can't be blank">
 
-<form id="ticket-form">
-  <div class="row">
-    <label for="name">Enter your name:</label>
-    <input type="text" id="name">
-  </div>
-  <div class="row">
-    <label for="email">Enter your email address:</label>
-    <input type="text" id="email">
-  </div>
-  <div class="row">
-    <label for="reason">Choose your reason for contacting us:</label>
-    <select id="reason">
-      <option id="default" selected disabled>Pick one.</option>
-      <option>Option One</option>
-      <option>Option Two</option>
-      <option>Option Three</option>
-    </select>
-  </div>
-  <div class="row">
-    <label for="details">Tell us anything else we need to know:</label>
-    <textarea id="details"></textarea>
-  </div>
+  <label for="email">Enter your email address:</label>
+  <input type="text" id="email" data-blank="email can't be blank" data-invalid="email must be valid">
+
+  <label for="reason">Choose your reason for contacting us:</label>
+  <select id="reason" data-blank="must choose a reason">
+    <option selected disabled>Pick one.</option>
+    <option>Option One</option>
+    <option>Option Two</option>
+    <option>Option Three</option>
+  </select>
+
+  <label for="description">Tell us anything else we need to know:</label>
+  <textarea id="description" data-blank="details can't be blank"></textarea>
 </form>

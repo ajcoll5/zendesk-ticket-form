@@ -1,4 +1,4 @@
-var ticketAPI = (function ($, window, document, undefined) {
+module.exports = (function () {
   function configureData (vals) {
     return Object.keys(vals).map(function (key) {
       return "z_" + encodeURIComponent(key) + "=" + encodeURIComponent(vals[key]);
@@ -50,19 +50,7 @@ var ticketAPI = (function ($, window, document, undefined) {
     }
   }
 
-  function checkArgs (url, errorHandler) {
-    if (!url || !errorHandler) {
-      throw new Error("You must provide a 'url' object and an 'errorHandler' object to #new");
-    }
-    if (!errorHandler.validate) {
-      throw new Error("Your 'errorHandler' object does not have a #validate method");
-    }
-  }
-
   return {
-    new: function (url, errorHandler) {
-      checkArgs(url, errorHandler);
-      return initializeObject(url, errorHandler);
-    }
+    new: initializeObject
   }
-})(jQuery, window, document);
+})();

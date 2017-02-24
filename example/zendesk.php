@@ -1,10 +1,6 @@
 <?php
-define("ZDAPIKEY", "<YOUR-API-KEY>");
-define("ZDUSER", "<YOUR-USER-EMAIL>");
-define("ZDURL", "https://<YOUR-SUBDOMAIN>.zendesk.com/api/v2");
+include("config.php")
 define("VALID_EMAIL_REGEX", '/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/iD');
-
-/* Remember: ZDURL needs to be of the form https://subdomain.zendesk.com/api/v2 with no trailing slash */
 
 function isBlank($val) {
 	return empty( trim($val) );
@@ -22,29 +18,22 @@ function createErrorObj($name, $message) {
 
 function hasErrors($post) {
 
-  /* Edit the values below with your own error messages. */
-	$blankName = "name can't be blank";
-	$blankRequester = "email can't be blank";
-	$invalidRequester = "email must be valid";
-	$blankSubject = "reason can't be blank";
-	$blankDescription = "details can't be blank";
-
 	$errorResponse = new stdClass();
 	$errorResponse->errors = array();
 
 	if (isBlank($post['z_name'])) {
-		array_push($errorResponse->errors, createErrorObj("name", $blankName));
+		array_push($errorResponse->errors, createErrorObj("name", BLANK_NAME));
 	}
 	if (isBlank($post['z_requester'])) {
-		array_push($errorResponse->errors, createErrorObj("requester", $blankRequester));
+		array_push($errorResponse->errors, createErrorObj("email", BLANK_EMAIL));
 	} elseif (isInvalidEmail($post['z_requester'])) {
-		array_push($errorResponse->errors, createErrorObj("requester", $invalidRequester));
+		array_push($errorResponse->errors, createErrorObj("email", INVALID_EMAIL));
 	}
 	if (isBlank($post['z_subject'])) {
-		array_push($errorResponse->errors, createErrorObj("subject", $blankSubject));
+		array_push($errorResponse->errors, createErrorObj("reason", BLANK_REASON));
 	}
 	if (isBlank($post['z_description'])) {
-		array_push($errorResponse->errors, createErrorObj("description", $blankDescription));
+		array_push($errorResponse->errors, createErrorObj("description", BLANK_DESCRIPTION));
 	}
 
 	if ( empty($errorResponse->errors) ) {
