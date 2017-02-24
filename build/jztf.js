@@ -1,6 +1,3 @@
-// This is the script that becomes minified;
-// the others are included for legibility and testing.
-
 (function ($, window, document, undefined) {
   var ticketErrors = (function () {
     var validEmailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
