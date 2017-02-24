@@ -30,9 +30,9 @@ Check the [Hickies support page](https://www.hickies.com/blogs/support) for an e
 
 ##
 
-### Configuration
+## Configuration
 
-#### PHP
+### PHP
 
 Copy over [zendesk.php](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/example/zendesk.php) and [config.php](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/example/config.php) *into the same folder* on your server. Edit the values in config.php with your own Zendesk **api key**, **user email**, and **api address**, and your own error messages:
 
@@ -51,7 +51,7 @@ define("BLANK_DESCRIPTION", "description can't be blank");
 
 These error messages correspond to the inputs on the HTML form that you'll make.
 
-#### Submission Form
+### Submission Form
 
 Create a form on your site that has four inputs within it, respectively given ids **#name**, **#email**, **#subject**, and **#description**. Give each of these elements the data attributes specified below.
 
@@ -75,7 +75,7 @@ Give the select element corresponding to the subject of the customer's ticket an
 
 Give the textarea element corresponding to the extra information about the customer's problem an id of **description** and a **data-blank** attribute that contains an error message for when the field is left unfilled.
 
-##### The end result should look like [this](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/example/form.html):
+#### The end result should look like [this](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/example/form.html):
 
 ````html
 <form id="ticket-form" data-url="https://example.com/zendesk.php">
@@ -98,7 +98,7 @@ Give the textarea element corresponding to the extra information about the custo
 </form>
 ````
 
-### Initialization
+## Initialization
 
 Now all you need to do is select your form and call the **zendeskTicketForm** method on it. The method takes as an argument an object that contains three functions: **handleSuccess**, **handleFailure**, and **handleErrors**.
 
@@ -152,3 +152,7 @@ function (errors) {
   }, this);
 }
 ````
+
+## License
+
+This plugin is licensed under the [MIT License](https://opensource.org/licenses/MIT).
