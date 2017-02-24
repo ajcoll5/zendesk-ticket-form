@@ -1,10 +1,8 @@
 <form id="ticket-form" data-url="https://example.com/zendesk.php">
   <label for="name">Enter your name:</label>
   <input type="text" id="name" data-blank="name can't be blank">
-
   <label for="email">Enter your email address:</label>
   <input type="text" id="email" data-blank="email can't be blank" data-invalid="email must be valid">
-
   <label for="reason">Choose your reason for contacting us:</label>
   <select id="reason" data-blank="must choose a reason">
     <option selected disabled>Pick one.</option>
@@ -12,7 +10,29 @@
     <option>Option Two</option>
     <option>Option Three</option>
   </select>
-
   <label for="description">Tell us anything else we need to know:</label>
   <textarea id="description" data-blank="details can't be blank"></textarea>
 </form>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script src="/assets/jztf.min.js"></script>
+<script type="text/javascript">
+$(function(){
+  $("#ticket-form").zendeskTicketForm({
+    handleSuccess: function (ticket) {
+      alert("Ticket sumbitted! Your ticket ID is " + ticket.id);
+    },
+    handleFailure: function (res) {
+      alert("Sorry, something went wrong.");
+      console.log(res);
+    },
+    handleErrors: function (errors) {
+      errors.forEach(function (err) {
+        var el = this[err.name];
+        el.css("border-color", "red");
+        alert(err.message);
+      }, this);
+    }
+  })
+});
+</script>

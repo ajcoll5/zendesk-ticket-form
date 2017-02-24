@@ -35,5 +35,8 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "mocha": "^3.2.0"
+  },
+  "dependencies": {
+    "jquery": "^3.1.1"
   }
 }
