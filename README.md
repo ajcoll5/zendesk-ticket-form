@@ -153,6 +153,14 @@ function (errors) {
 }
 ````
 
+## Testing
+
+This plugin includes some light tests to make sure that the error handling component returns the correct data, correctly configured. If you want to run the tests yourself, clone the repo, npm install, and run npm test:
+
+````
+git clone git@github.com:dunxtand/jquery-zendesk-ticket-form.git && npm install && npm test
+````
+
 ## License
 
 This plugin is licensed under the [MIT License](https://opensource.org/licenses/MIT).
