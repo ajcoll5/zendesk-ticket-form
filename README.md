@@ -155,10 +155,13 @@ function (errors) {
 
 ## Testing
 
-This plugin includes some light tests to make sure that the error handling component returns the correct data, correctly configured. If you want to run the tests yourself, clone the repo, npm install, and run npm test:
+This plugin includes some light tests to make sure that the error handling component returns the correct data, correctly configured. If you want to run the tests yourself, clone the repo, cd into the directory, npm install, and run npm test:
 
-````
-git clone git@github.com:dunxtand/jquery-zendesk-ticket-form.git && npm install && npm test
+````bash
+$ git clone git@github.com:dunxtand/jquery-zendesk-ticket-form.git
+$ cd jquery-zendesk-ticket-form
+$ npm install
+$ npm test
 ````
 
 ## License
