@@ -1,4 +1,3 @@
-var $ = require("jquery");
 var checkArgs = require("./checkArgs");
 var ticketErrors = require("./ticketErrors");
 var ticketAPI = require("./ticketAPI");
