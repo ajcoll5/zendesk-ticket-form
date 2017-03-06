@@ -5,23 +5,25 @@ var ticketAPI = require("./ticketAPI");
 var ticketForm = require("./ticketForm");
 
 module.exports = function () {
-  $.fn.extend({
-    zendeskTicketForm: function (callbacks) {
-      checkArgs(callbacks);
-      var errorHandler = ticketErrors.new({
-        blankName: this.find("#name").data("blank"),
-        blankRequester: this.find("#email").data("blank"),
-        invalidRequester: this.find("#email").data("invalid"),
-        blankSubject: this.find("#reason").data("blank"),
-        blankDescription: this.find("#details").data("blank")
-      });
-      var api = ticketAPI.new(this.data("url"), errorHandler);
-      var form = ticketForm.new(this, api);
-      for (var fnName in callbacks) {
-        form.setCallback(fnName, callbacks[fnName])
-      }
-      form.init();
-      return this;
+  document.zendeskTicketForm = function (id, callbacks) {
+    checkArgs(callbacks);
+    var _this = document.getElementById(id);
+    var getData = function (id, field) {
+      return document.getElementById(id).dataset[field];
     }
-  });
+    var errorHandler = ticketErrors.new({
+      blankName: getData("name", "blank"),
+      blankRequester: getData("email", "blank"),
+      invalidRequester: getData("email", "invalid"),
+      blankSubject: getData("reason", "blank"),
+      blankDescription: getData("description", "blank")
+    });
+    var api = ticketAPI.new(_this.dataset.url, errorHandler);
+    var form = ticketForm.new(_this, api);
+    for (var fnName in callbacks) {
+      form.setCallback(fnName, callbacks[fnName])
+    }
+    form.init();
+    return _this;
+  }
 }

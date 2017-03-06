@@ -12,8 +12,7 @@ module.exports = (function () {
       handleFailure: function (res) {}
     };
 
-    function handleResponse (res) {
-      var json = JSON.parse(res);
+    function handleResponse (json) {
       if (!!json.ticket) {
         callbacks.handleSuccess(json.ticket);
       } else if (!!json.errors) {
@@ -24,13 +23,18 @@ module.exports = (function () {
     }
 
     function submitRequest (values) {
-      $.ajax({
-        url: url,
-        type: "POST",
-        data: configureData(values),
-        success: handleResponse,
-        error: callbacks.handleFailure
-      });
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", url);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.onload = function () {
+        var json = JSON.parse(xhr.responseText);
+        if (xhr.status === 200) {
+          handleResponse(json);
+        } else {
+          callbacks.handleFailure(json);
+        }
+      }
+      xhr.send(JSON.stringify(values));
     }
 
     return {
