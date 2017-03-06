@@ -3,12 +3,12 @@ var ticketErrors = require("./ticketErrors");
 var ticketAPI = require("./ticketAPI");
 var ticketForm = require("./ticketForm");
 
-module.exports = function () {
+module.exports = function (document) {
   document.zendeskTicketForm = function (id, callbacks) {
     checkArgs(callbacks);
-    var _this = document.getElementById(id);
+    var el = this.getElementById(id);
     var getData = function (id, field) {
-      return document.getElementById(id).dataset[field];
+      return this.getElementById(id).dataset[field];
     }
     var errorHandler = ticketErrors.new({
       blankName: getData("name", "blank"),
@@ -17,12 +17,12 @@ module.exports = function () {
       blankSubject: getData("reason", "blank"),
       blankDescription: getData("description", "blank")
     });
-    var api = ticketAPI.new(_this.dataset.url, errorHandler);
-    var form = ticketForm.new(_this, api);
+    var api = ticketAPI.new(el.dataset.url, errorHandler);
+    var form = ticketForm.new(el, api);
     for (var fnName in callbacks) {
       form.setCallback(fnName, callbacks[fnName])
     }
     form.init();
-    return _this;
+    return el;
   }
 }
