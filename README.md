@@ -6,7 +6,7 @@ This a JavaScript module that allows for quicker development of a [Zendesk ticke
 
 The module relies on a specific form element configuration, and on some PHP server-side error handling and request sending, extended from [this script](https://github.com/apanzerj/Former-For-Zendesk/blob/Lesson-1-Branch/former.php).
 
-**NOTE: if you have jQuery on your site, you can integrate this module as a plugin. Check [this branch](https://github.com/dunxtand/zendesk-ticket-form/tree/jquery) for details. There are very few differences between the repos; the jQuery plugin uses jQuery functions instead of native browser functionality.**
+**NOTE: if you have jQuery on your site, you can integrate this module into jQuery. Check [this branch](https://github.com/dunxtand/zendesk-ticket-form/tree/jquery) for details. There are a few minor usage differences; the jQuery plugin uses jQuery functions instead of native browser functionality.**
 
 ### Inclusion
 
@@ -15,6 +15,20 @@ This module has no JavaScript dependencies except a handful of basic DOM constru
 ````html
 <script src="/your/path/to/ztf.min.js"></script>
 ````
+
+Or, if you're using **npm**, you can install it in your project:
+
+````bash
+npm install zendesk-ticket-form
+````
+
+...and just require it in your code:
+
+````javascript
+require("zendesk-ticket-form");
+````
+
+The code relies on a global **window** object, so installing server-side only works if your code is going to be bundled up and executed on the client.
 
 Include [zendesk.php](https://github.com/dunxtand/zendesk-ticket-form/blob/master/example/zendesk.php) and your customized [config.php](https://github.com/dunxtand/zendesk-ticket-form/blob/master/example/config.php) on a server, customize your [form](https://github.com/dunxtand/zendesk-ticket-form/blob/master/example/form.html), and write your [initialization](https://github.com/dunxtand/zendesk-ticket-form/blob/master/example/form.html).
 
