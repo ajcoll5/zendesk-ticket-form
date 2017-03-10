@@ -14,17 +14,17 @@ Make sure you have jQuery enabled on your site:
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 ````
 
-Grab [the minified script](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/jquery/build/jztf.min.js) and include it on your site:
+Grab [the minified script](https://github.com/dunxtand/zendesk-ticket-form/blob/jquery/build/jztf.min.js) and include it on your site:
 
 ````html
 <script src="/your/path/to/ztf.min.js"></script>
 ````
 
-Include [zendesk.php](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/jquery/example/zendesk.php) and your customized [config.php](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/jquery/example/config.php) on a server, customize your [form](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/jquery/example/form.html), and write your [initialization](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/jquery/example/form.html).
+Include [zendesk.php](https://github.com/dunxtand/zendesk-ticket-form/blob/jquery/example/zendesk.php) and your customized [config.php](https://github.com/dunxtand/zendesk-ticket-form/blob/jquery/example/config.php) on a server, customize your [form](https://github.com/dunxtand/zendesk-ticket-form/blob/jquery/example/form.html), and write your [initialization](https://github.com/dunxtand/zendesk-ticket-form/blob/jquery/example/form.html).
 
 ### Examples
 
-Check [the examples folder](https://github.com/dunxtand/jquery-zendesk-ticket-form/tree/jquery/example) for a a model form, initialization script, and required PHP files.
+Check [the examples folder](https://github.com/dunxtand/zendesk-ticket-form/tree/jquery/example) for a a model form, initialization script, and required PHP files.
 
 Check the [Hickies support page](https://www.hickies.com/blogs/support) for an example of this plugin being used on a live site.
 
@@ -34,7 +34,7 @@ Check the [Hickies support page](https://www.hickies.com/blogs/support) for an e
 
 ### PHP
 
-Copy over [zendesk.php](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/jquery/example/zendesk.php) and [config.php](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/jquery/example/config.php) *into the same folder* on your server. Edit the values in config.php with your own Zendesk **api key**, **user email**, and **api address**, and your own error messages:
+Copy over [zendesk.php](https://github.com/dunxtand/zendesk-ticket-form/blob/jquery/example/zendesk.php) and [config.php](https://github.com/dunxtand/zendesk-ticket-form/blob/jquery/example/config.php) *into the same folder* on your server. Edit the values in config.php with your own Zendesk **api key**, **user email**, and **api address**, and your own error messages:
 
 ````php
 <?php
@@ -75,7 +75,7 @@ Give the select element corresponding to the subject of the customer's ticket an
 
 Give the textarea element corresponding to the extra information about the customer's problem an id of **description** and a **data-blank** attribute that contains an error message for when the field is left unfilled.
 
-#### The end result should look like [this](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/jquery/example/form.html):
+#### The end result should look like [this](https://github.com/dunxtand/zendesk-ticket-form/blob/jquery/example/form.html):
 
 ````html
 <form id="ticket-form" data-url="https://example.com/zendesk.php">
@@ -158,8 +158,8 @@ function (errors) {
 This plugin includes some light tests to make sure that the error handling component returns the correct data, correctly configured. If you want to run the tests yourself, clone the repo, cd into the directory, npm install, and run npm test:
 
 ````bash
-$ git clone git@github.com:dunxtand/jquery-zendesk-ticket-form.git
-$ cd jquery-zendesk-ticket-form
+$ git clone git@github.com:dunxtand/zendesk-ticket-form.git
+$ cd zendesk-ticket-form
 $ npm install
 $ npm test
 ````
