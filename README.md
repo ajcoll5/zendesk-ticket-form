@@ -1,4 +1,4 @@
-# jQuery Zendesk Ticket Form
+# Zendesk Ticket Form
 
 ### Summary
 
@@ -14,17 +14,17 @@ Make sure you have jQuery enabled on your site:
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 ````
 
-Grab [the minified script](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/build/jztf.min.js) and include it on your site:
+Grab [the minified script](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/jquery/build/jztf.min.js) and include it on your site:
 
 ````html
 <script src="/your/path/to/jztf.min.js"></script>
 ````
 
-Include [zendesk.php](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/example/zendesk.php) and your customized [config.php](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/example/config.php) on a server, customize your [form](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/example/form.html), and write your [initialization](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/example/form.html).
+Include [zendesk.php](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/jquery/example/zendesk.php) and your customized [config.php](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/jquery/example/config.php) on a server, customize your [form](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/jquery/example/form.html), and write your [initialization](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/jquery/example/form.html).
 
 ### Examples
 
-Check [the examples folder](https://github.com/dunxtand/jquery-zendesk-ticket-form/tree/master/example) for a a model form, initialization script, and required PHP files.
+Check [the examples folder](https://github.com/dunxtand/jquery-zendesk-ticket-form/tree/jquery/example) for a a model form, initialization script, and required PHP files.
 
 Check the [Hickies support page](https://www.hickies.com/blogs/support) for an example of this plugin being used on a live site.
 
@@ -34,7 +34,7 @@ Check the [Hickies support page](https://www.hickies.com/blogs/support) for an e
 
 ### PHP
 
-Copy over [zendesk.php](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/example/zendesk.php) and [config.php](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/example/config.php) *into the same folder* on your server. Edit the values in config.php with your own Zendesk **api key**, **user email**, and **api address**, and your own error messages:
+Copy over [zendesk.php](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/jquery/example/zendesk.php) and [config.php](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/jquery/example/config.php) *into the same folder* on your server. Edit the values in config.php with your own Zendesk **api key**, **user email**, and **api address**, and your own error messages:
 
 ````php
 <?php
@@ -75,7 +75,7 @@ Give the select element corresponding to the subject of the customer's ticket an
 
 Give the textarea element corresponding to the extra information about the customer's problem an id of **description** and a **data-blank** attribute that contains an error message for when the field is left unfilled.
 
-#### The end result should look like [this](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/example/form.html):
+#### The end result should look like [this](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/jquery/example/form.html):
 
 ````html
 <form id="ticket-form" data-url="https://example.com/zendesk.php">
@@ -134,11 +134,11 @@ $("#ticket-form").zendeskTicketForm({
 Inside each of these functions, you can access the selected form element and all of its inputs throught the **this** keyword:
 
 ````javascript
-this              // returns [form#ticket-form]
-this.name         // returns [input#name]
-this.email        // returns [input#email]
-this.reason       // returns [select#reason]
-this.description  // returns [textarea#description]
+this              // [form#ticket-form]
+this.name         // [input#name]
+this.email        // [input#email]
+this.reason       // [select#reason]
+this.description  // [textarea#description]
 ````
 
 Each of the 'name' properties on the objects in the 'errors' array correspondings to a property on **this**, so you can find the input that each error message belongs to:
@@ -166,4 +166,4 @@ $ npm test
 
 ## License
 
-This plugin is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+[MIT](https://opensource.org/licenses/MIT).
