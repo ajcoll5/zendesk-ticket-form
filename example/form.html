@@ -14,34 +14,27 @@
   <textarea id="description" data-blank="details can't be blank"></textarea>
 </form>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-<script src="/example/jztf.min.js"></script>
+<script src="/example/ztf.min.js"></script>
 <script type="text/javascript">
 document.addEventListener("DOMContentLoaded", function () {
-  // find form element
-  var form = document.getElementById("ticket-form");
 
-  // define callbacks
-  function handleSuccess (ticket) {
-    alert("Ticket sumbitted! Your ticket ID is " + ticket.id);
-  }
-  function handleFailure (res) {
-    alert("Sorry, something went wrong.");
-    console.log(res);
-  }
-  function handleErrors (errors) {
-    errors.forEach(function (err) {
-      var el = this[err.name];
-      el.style.borderColor = "red";
-      alert(err.message);
-    }, this);
-  }
+  document.getElementById("ticket-form").zendeskTicketForm({
+    handleSuccess: function (ticket) {
+      alert("Ticket sumbitted! Your ticket ID is " + ticket.id);
+    },
+    handleFailure: function (res) {
+      alert("Sorry, something went wrong.");
+      console.log(res);
+    },
+    handleErrors: function (errors) {
+      errors.forEach(function (err) {
+        var el = this[err.name];
+        el.style.borderColor = "red";
+        alert(err.message);
+      }, this);
+    }
+  });
 
-  // initialize form w/ callbacks
-  form.zendeskTicketForm({
-    handleSuccess: handleSuccess,
-    handleFailure: handleFailure,
-    handleErrors: handleErrors
-  })
+});
 }
 </script>
