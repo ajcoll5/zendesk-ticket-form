@@ -4,40 +4,41 @@ var ticketAPI = (function () {
       return "z_" + encodeURIComponent(key) + "=" + encodeURIComponent(vals[key]);
     }).join("&");
   }
-  function orsc (success, failure) {
-    if (this.readyState === 4) {
-      if (this.status === 200) {
-        var json = JSON.parse(this.responseText);
-        success(json);
-      } else {
-        failure(this);
-      }
-    }
-  }
 
   function initializeObject (url, errorHandler) {
     var callbacks = {
       handleSuccess: function (ticket) {},
       handleErrors:  function (errors) {},
-      handleFailure: function (res) {}
+      handleFailure: function (xhr) {}
     };
 
-    function handleResponse (json) {
-      if (!!json.ticket) {
-        callbacks.handleSuccess(json.ticket);
-      } else if (!!json.errors) {
-        callbacks.handleErrors(json.errors);
-      } else {
-        callbacks.handleFailure(json);
+    function handleResponse (xhr) {
+      try {
+        var json = window.JSON.parse(xhr.responseText);
+        if (!!json.ticket) {
+          callbacks.handleSuccess(json.ticket);
+        } else if (!!json.errors) {
+          callbacks.handleErrors(json.errors);
+        } else {
+          callbacks.handleFailure(xhr);
+        }
+      } catch (e) { // responseText is not JSON
+        callbacks.handleFailure(xhr);
       }
     }
 
     function submitRequest (values) {
       var xhr = new window.XMLHttpRequest();
       xhr.open("POST", url, true);
-      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
       xhr.onreadystatechange = function (e) {
-        orsc.call(xhr, handleResponse, callbacks.handleFailure);
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            handleResponse(xhr);
+          } else {
+            callbacks.handleFailure(xhr);
+          }
+        }
       }
       xhr.onerror = function (e) {
         callbacks.handleFailure(xhr);

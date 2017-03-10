@@ -101,9 +101,9 @@ document.getElementById("ticket-form").zendeskTicketForm({
   handleSuccess: function (ticket) {
     alert("Ticket sumbitted! Your ticket ID is " + ticket.id);
   },
-  handleFailure: function (res) {
+  handleFailure: function (xhr) {
     alert("Sorry, something went wrong.");
-    console.log(res);
+    console.log(xhr.responseText);
   },
   handleErrors: function (errors) {
     errors.forEach(function (err) {
@@ -117,7 +117,7 @@ document.getElementById("ticket-form").zendeskTicketForm({
 
 * **handleSuccess** is called when the PHP script successfully submits your ticket. The argument to this function will be an object with one property, the ID of the successfully submitted ticket.
 
-* **handleFailure** is called when the request fails. The argument to this function is the response body.
+* **handleFailure** is called when the request fails. The argument to this function is the XMLHttpRequest object used to connect to Zendesk.
 
 * **handleErrors** is called when your ticketErrors object finds errors, or when your PHP script returns an object with key 'errors'. The argument to this function is an array filled with objects and looks like this:
 

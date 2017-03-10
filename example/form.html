@@ -21,9 +21,9 @@ document.addEventListener("DOMContentLoaded", function () {
     handleSuccess: function (ticket) {
       alert("Ticket sumbitted! Your ticket ID is " + ticket.id);
     },
-    handleFailure: function (res) {
+    handleFailure: function (xhr) {
       alert("Sorry, something went wrong.");
-      console.log(res);
+      console.log(xhr.responseText);
     },
     handleErrors: function (errors) {
       errors.forEach(function (err) {
