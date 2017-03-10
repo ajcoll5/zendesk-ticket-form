@@ -161,3 +161,7 @@ $ npm test
 ## License
 
 [MIT](https://opensource.org/licenses/MIT).
+
+## Questions
+
+Please reach out to me with anything; my email is listed on my [profile page](https://github.com/dunxtand).
