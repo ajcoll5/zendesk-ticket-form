@@ -1,4 +1,4 @@
-(function ($, window, document, undefined) {
+(function (window, document, undefined) {
   var ticketErrors = (function () {
     var validEmailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     var nameMap = {
@@ -64,6 +64,12 @@
         return "z_" + encodeURIComponent(key) + "=" + encodeURIComponent(vals[key]);
       }).join("&");
     }
+    function onReadyStateChange (success, failure) {
+      if (this.readyState === 4) {
+        var json = JSON.parse(this.responseText);
+        this.status === 200 ? success(json) : failure(json);
+      }
+    }
 
     function initializeObject (url, errorHandler) {
       var callbacks = {
@@ -72,8 +78,7 @@
         handleFailure: function (res) {}
       };
 
-      function handleResponse (res) {
-        var json = JSON.parse(res);
+      function handleResponse (json) {
         if (!!json.ticket) {
           callbacks.handleSuccess(json.ticket);
         } else if (!!json.errors) {
@@ -84,13 +89,16 @@
       }
 
       function submitRequest (values) {
-        $.ajax({
-          url: url,
-          type: "POST",
-          data: configureData(values),
-          success: handleResponse,
-          error: callbacks.handleFailure
-        });
+        var xhr = new window.XMLHttpRequest();
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function (e) {
+          onReadyStateChange.call(xhr, handleResponse, callbacks.handleFailure);
+        }
+        xhr.onerror = function (e) {
+          callbacks.handleFailure(xhr);
+        }
+        xhr.send(configureData(values));
       }
 
       return {
@@ -116,29 +124,56 @@
   })();
 
   var ticketForm = (function () {
+    function makeGetChild (nodes) {
+      nodes = [].slice.call(nodes).filter(function (node) {
+        return !!node.attributes && !!node.attributes.id;
+      });
+      return function (id) {
+        var child;
+        nodes.forEach(function (node) {
+          if (node.attributes.id.textContent === id) {
+            child = node;
+          }
+        });
+        return child;
+      }
+    }
+    function attachInputsToForm (form) {
+      var getChild = makeGetChild(form.querySelectorAll("*"));
+      ["name", "reason", "email", "description"]
+      .forEach(function (prop) {
+        form[prop] = getChild(prop);
+      });
+    }
+    function getReasonVal (el) {
+      if (el.constructor === window.HTMLSelectElement) {
+        var selected = el.options[el.selectedIndex];
+        return selected.disabled ? null : selected.value;
+      } else {
+        return el.value;
+      }
+    }
+
     function initializeObject (form, api) {
       var _this, callbacks = {};
-      form.name        = form.find("#name"),
-      form.email       = form.find("#email"),
-      form.reason      = form.find("#reason"),
-      form.description = form.find("#description");
+      attachInputsToForm(form);
 
       function gatherValues () {
         return {
-          name: form.name.val(),
-          requester: form.email.val(),
-          subject: form.reason.val(),
-          description: form.description.val()
+          name: form.name.value,
+          requester: form.email.value,
+          subject: getReasonVal(form.reason),
+          description: form.description.value
         }
       }
 
       _this = {
         init: function () {
           api.setCallbacks(callbacks);
-          form.submit(function (e) {
+          form.onsubmit = function (e) {
             e.preventDefault(); e.stopPropagation();
             api.submit( gatherValues() );
-          });
+          };
         },
         setCallback: function (name, fn) {
           callbacks[name] = fn.bind(form);
@@ -169,23 +204,44 @@
     }
   }
 
-  $.fn.extend({
-    zendeskTicketForm: function (callbacks) {
-      checkArgs(callbacks);
-      var errorHandler = ticketErrors.new({
-        blankName: this.find("#name").data("blank"),
-        blankRequester: this.find("#email").data("blank"),
-        invalidRequester: this.find("#email").data("invalid"),
-        blankSubject: this.find("#reason").data("blank"),
-        blankDescription: this.find("#description").data("blank")
+  var protoMethod = (function () {
+    function makeGetData (nodes) {
+      nodes = [].slice.call(nodes).filter(function (node) {
+        return !!node.attributes && !!node.attributes.id;
       });
-      var api = ticketAPI.new(this.data("url"), errorHandler);
-      var form = ticketForm.new(this, api);
-      for (var fnName in callbacks) {
-        form.setCallback(fnName, callbacks[fnName])
+      return function (id, field) {
+        var errMessage;
+        nodes.forEach(function (node) {
+          if (node.attributes.id.textContent === id) {
+            errMessage = node.dataset[field];
+          }
+        });
+        return errMessage;
       }
-      form.init();
+    }
+    function errMessagesFrom (form) {
+      var getData = makeGetData(form.querySelectorAll("*"));
+      return {
+        blankName:        getData("name", "blank"),
+        blankRequester:   getData("email", "blank"),
+        invalidRequester: getData("email", "invalid"),
+        blankSubject:     getData("reason", "blank"),
+        blankDescription: getData("description", "blank")
+      }
+    }
+
+    return function (callbacks) {
+      checkArgs(callbacks);
+      var errorHandler = ticketErrors.new(errMessagesFrom(this));
+      var api = ticketAPI.new(this.dataset.url, errorHandler);
+      ticketForm.new(this, api)
+      .setCallback("handleSuccess", callbacks.handleSuccess)
+      .setCallback("handleFailure", callbacks.handleFailure)
+      .setCallback("handleErrors",  callbacks.handleErrors)
+      .init();
       return this;
     }
-  });
-})(jQuery, window, document);
+  })();
+
+  window.HTMLFormElement.prototype.zendeskTicketForm = protoMethod;
+})(window, document);

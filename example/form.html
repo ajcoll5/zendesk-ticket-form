@@ -14,11 +14,11 @@
   <textarea id="description" data-blank="details can't be blank"></textarea>
 </form>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-<script src="/example/jztf.min.js"></script>
+<script src="/example/ztf.min.js"></script>
 <script type="text/javascript">
-$(function(){
-  $("#ticket-form").zendeskTicketForm({
+document.addEventListener("DOMContentLoaded", function () {
+
+  document.getElementById("ticket-form").zendeskTicketForm({
     handleSuccess: function (ticket) {
       alert("Ticket sumbitted! Your ticket ID is " + ticket.id);
     },
@@ -29,10 +29,12 @@ $(function(){
     handleErrors: function (errors) {
       errors.forEach(function (err) {
         var el = this[err.name];
-        el.css("border-color", "red");
+        el.style.borderColor = "red";
         alert(err.message);
       }, this);
     }
-  })
+  });
+
 });
+}
 </script>

@@ -1,23 +1,17 @@
-# jQuery Zendesk Ticket Form
+# Zendesk Ticket Form
 
 ### Summary
 
-This a [jQuery](http://jquery.com/) plugin that allows for quicker development of a [Zendesk ticket](https://support.zendesk.com/hc/en-us/articles/203690856-Working-with-tickets) submission form.
+This a JavaScript module that allows for quicker development of a [Zendesk ticket](https://support.zendesk.com/hc/en-us/articles/203690856-Working-with-tickets) submission form.
 
-The plugin relies on a specific form element configuration, and on some PHP server-side error handling and request sending, extended from [this script](https://github.com/apanzerj/Former-For-Zendesk/blob/Lesson-1-Branch/former.php).
+The module relies on a specific form element configuration, and on some PHP server-side error handling and request sending, extended from [this script](https://github.com/apanzerj/Former-For-Zendesk/blob/Lesson-1-Branch/former.php).
 
 ### Inclusion
 
-Make sure you have jQuery enabled on your site:
+This module has no JavaScript dependencies except a handful of basic DOM constructors and methods that are supported in all browsers. Just grab [the minified script](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/build/ztf.min.js) and include it on your site:
 
 ````html
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-````
-
-Grab [the minified script](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/build/jztf.min.js) and include it on your site:
-
-````html
-<script src="/your/path/to/jztf.min.js"></script>
+<script src="/your/path/to/ztf.min.js"></script>
 ````
 
 Include [zendesk.php](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/example/zendesk.php) and your customized [config.php](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/example/config.php) on a server, customize your [form](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/example/form.html), and write your [initialization](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/example/form.html).
@@ -27,8 +21,6 @@ Include [zendesk.php](https://github.com/dunxtand/jquery-zendesk-ticket-form/blo
 Check [the examples folder](https://github.com/dunxtand/jquery-zendesk-ticket-form/tree/master/example) for a a model form, initialization script, and required PHP files.
 
 Check the [Hickies support page](https://www.hickies.com/blogs/support) for an example of this plugin being used on a live site.
-
-##
 
 ## Configuration
 
@@ -103,7 +95,7 @@ Give the textarea element corresponding to the extra information about the custo
 Now all you need to do is select your form and call the **zendeskTicketForm** method on it. The method takes as an argument an object that contains three functions: **handleSuccess**, **handleFailure**, and **handleErrors**.
 
 ````javascript
-$("#ticket-form").zendeskTicketForm({
+document.getElementById("ticket-form").zendeskTicketForm({
   handleSuccess: function (ticket) {
     alert("Ticket sumbitted! Your ticket ID is " + ticket.id);
   },
@@ -114,11 +106,11 @@ $("#ticket-form").zendeskTicketForm({
   handleErrors: function (errors) {
     errors.forEach(function (err) {
       var el = this[err.name];
-      el.css("border-color", "red");
+      el.style.borderColor = "red";
       alert(err.message);
     }, this);
   }
-})
+});
 ````
 
 * **handleSuccess** is called when the PHP script successfully submits your ticket. The argument to this function will be an object with one property, the ID of the successfully submitted ticket.
@@ -134,11 +126,11 @@ $("#ticket-form").zendeskTicketForm({
 Inside each of these functions, you can access the selected form element and all of its inputs throught the **this** keyword:
 
 ````javascript
-this              // returns [form#ticket-form]
-this.name         // returns [input#name]
-this.email        // returns [input#email]
-this.reason       // returns [select#reason]
-this.description  // returns [textarea#description]
+this              // <form id="ticket-form">...</form>
+this.name         // <input id="name">
+this.email        // <input id="email">
+this.reason       // <select id="reason">...</select>
+this.description  // <textarea id="description">...</textarea>
 ````
 
 Each of the 'name' properties on the objects in the 'errors' array correspondings to a property on **this**, so you can find the input that each error message belongs to:
@@ -147,7 +139,7 @@ Each of the 'name' properties on the objects in the 'errors' array corresponding
 function (errors) {
   errors.forEach(function (err) {
     var el = this[err.name]; // use 'this' and 'err.name' to find the field with errors
-    el.css("border-color", "red");
+    el.style.borderColor = "red";
     alert(err.message);
   }, this);
 }
@@ -158,12 +150,12 @@ function (errors) {
 This plugin includes some light tests to make sure that the error handling component returns the correct data, correctly configured. If you want to run the tests yourself, clone the repo, cd into the directory, npm install, and run npm test:
 
 ````bash
-$ git clone git@github.com:dunxtand/jquery-zendesk-ticket-form.git
-$ cd jquery-zendesk-ticket-form
+$ git clone git@github.com:dunxtand/zendesk-ticket-form.git
+$ cd zendesk-ticket-form
 $ npm install
 $ npm test
 ````
 
 ## License
 
-This plugin is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+[MIT](https://opensource.org/licenses/MIT).

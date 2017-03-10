@@ -1,8 +1,14 @@
-module.exports = (function () {
+var ticketAPI = (function () {
   function configureData (vals) {
     return Object.keys(vals).map(function (key) {
       return "z_" + encodeURIComponent(key) + "=" + encodeURIComponent(vals[key]);
     }).join("&");
+  }
+  function onReadyStateChange (success, failure) {
+    if (this.readyState === 4) {
+      var json = JSON.parse(this.responseText);
+      this.status === 200 ? success(json) : failure(json);
+    }
   }
 
   function initializeObject (url, errorHandler) {
@@ -12,8 +18,7 @@ module.exports = (function () {
       handleFailure: function (res) {}
     };
 
-    function handleResponse (res) {
-      var json = JSON.parse(res);
+    function handleResponse (json) {
       if (!!json.ticket) {
         callbacks.handleSuccess(json.ticket);
       } else if (!!json.errors) {
@@ -24,13 +29,16 @@ module.exports = (function () {
     }
 
     function submitRequest (values) {
-      $.ajax({
-        url: url,
-        type: "POST",
-        data: configureData(values),
-        success: handleResponse,
-        error: callbacks.handleFailure
-      });
+      var xhr = new window.XMLHttpRequest();
+      xhr.open("POST", url, true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.onreadystatechange = function (e) {
+        onReadyStateChange.call(xhr, handleResponse, callbacks.handleFailure);
+      }
+      xhr.onerror = function (e) {
+        callbacks.handleFailure(xhr);
+      }
+      xhr.send(configureData(values));
     }
 
     return {
@@ -54,3 +62,5 @@ module.exports = (function () {
     new: initializeObject
   }
 })();
+
+module.exports = ticketAPI;

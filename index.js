@@ -1,1 +1,2 @@
-module.exports = require("./src/extend.js");
+var protoMethod = require("./src/protoMethod");
+window.HTMLFormElement.prototype.zendeskTicketForm = protoMethod;
