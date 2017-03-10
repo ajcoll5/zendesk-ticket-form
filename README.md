@@ -6,21 +6,21 @@ This a JavaScript module that allows for quicker development of a [Zendesk ticke
 
 The module relies on a specific form element configuration, and on some PHP server-side error handling and request sending, extended from [this script](https://github.com/apanzerj/Former-For-Zendesk/blob/Lesson-1-Branch/former.php).
 
-**NOTE: if you have jQuery on your site, you can integrate this module as a plugin. Check [this branch](https://github.com/dunxtand/jquery-zendesk-ticket-form/tree/jquery) for details. There are very few differences between the repos.**
+**NOTE: if you have jQuery on your site, you can integrate this module as a plugin. Check [this branch](https://github.com/dunxtand/zendesk-ticket-form/tree/jquery) for details. There are very few differences between the repos.**
 
 ### Inclusion
 
-This module has no JavaScript dependencies except a handful of basic DOM constructors and methods that are supported in all browsers. Just grab [the minified script](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/build/ztf.min.js) and include it on your site:
+This module has no JavaScript dependencies except a handful of basic DOM constructors and methods that are supported in all browsers. Just grab [the minified script](https://github.com/dunxtand/zendesk-ticket-form/blob/master/build/ztf.min.js) and include it on your site:
 
 ````html
 <script src="/your/path/to/ztf.min.js"></script>
 ````
 
-Include [zendesk.php](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/example/zendesk.php) and your customized [config.php](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/example/config.php) on a server, customize your [form](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/example/form.html), and write your [initialization](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/example/form.html).
+Include [zendesk.php](https://github.com/dunxtand/zendesk-ticket-form/blob/master/example/zendesk.php) and your customized [config.php](https://github.com/dunxtand/zendesk-ticket-form/blob/master/example/config.php) on a server, customize your [form](https://github.com/dunxtand/zendesk-ticket-form/blob/master/example/form.html), and write your [initialization](https://github.com/dunxtand/zendesk-ticket-form/blob/master/example/form.html).
 
 ### Examples
 
-Check [the examples folder](https://github.com/dunxtand/jquery-zendesk-ticket-form/tree/master/example) for a a model form, initialization script, and required PHP files.
+Check [the examples folder](https://github.com/dunxtand/zendesk-ticket-form/tree/master/example) for a a model form, initialization script, and required PHP files.
 
 Check the [Hickies support page](https://www.hickies.com/blogs/support) for an example of this plugin being used on a live site.
 
@@ -28,7 +28,7 @@ Check the [Hickies support page](https://www.hickies.com/blogs/support) for an e
 
 ### PHP
 
-Copy over [zendesk.php](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/example/zendesk.php) and [config.php](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/example/config.php) *into the same folder* on your server. Edit the values in config.php with your own Zendesk **api key**, **user email**, and **api address**, and your own error messages:
+Copy over [zendesk.php](https://github.com/dunxtand/zendesk-ticket-form/blob/master/example/zendesk.php) and [config.php](https://github.com/dunxtand/zendesk-ticket-form/blob/master/example/config.php) *into the same folder* on your server. Edit the values in config.php with your own Zendesk **api key**, **user email**, and **api address**, and your own error messages:
 
 ````php
 <?php
@@ -69,7 +69,7 @@ Give the select element corresponding to the subject of the customer's ticket an
 
 Give the textarea element corresponding to the extra information about the customer's problem an id of **description** and a **data-blank** attribute that contains an error message for when the field is left unfilled.
 
-#### The end result should look like [this](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/example/form.html):
+#### The end result should look like [this](https://github.com/dunxtand/zendesk-ticket-form/blob/master/example/form.html):
 
 ````html
 <form id="ticket-form" data-url="https://example.com/zendesk.php">
