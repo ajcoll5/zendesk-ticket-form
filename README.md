@@ -28,7 +28,7 @@ npm install zendesk-ticket-form
 require("zendesk-ticket-form");
 ````
 
-The code relies on a global **window** object, so installing server-side only works if your code is going to be bundled up and executed on the client.
+**NOTE: The code relies on a global *window* object, so installing server-side only works if your code is going to be bundled up and executed on the client.**
 
 Include [zendesk.php](https://github.com/dunxtand/zendesk-ticket-form/blob/master/example/zendesk.php) and your customized [config.php](https://github.com/dunxtand/zendesk-ticket-form/blob/master/example/config.php) on a server, customize your [form](https://github.com/dunxtand/zendesk-ticket-form/blob/master/example/form.html), and write your [initialization](https://github.com/dunxtand/zendesk-ticket-form/blob/master/example/form.html).
 
