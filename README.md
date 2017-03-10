@@ -6,6 +6,8 @@ This a JavaScript module that allows for quicker development of a [Zendesk ticke
 
 The module relies on a specific form element configuration, and on some PHP server-side error handling and request sending, extended from [this script](https://github.com/apanzerj/Former-For-Zendesk/blob/Lesson-1-Branch/former.php).
 
+**NOTE: if you have jQuery on your site, you can integrate this module as a plugin. Check [this branch](https://github.com/dunxtand/jquery-zendesk-ticket-form/tree/jquery) for details. There are very few differences between the repos.**
+
 ### Inclusion
 
 This module has no JavaScript dependencies except a handful of basic DOM constructors and methods that are supported in all browsers. Just grab [the minified script](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/master/build/ztf.min.js) and include it on your site:

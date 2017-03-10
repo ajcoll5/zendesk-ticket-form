@@ -17,7 +17,6 @@
 <script src="/example/ztf.min.js"></script>
 <script type="text/javascript">
 document.addEventListener("DOMContentLoaded", function () {
-
   document.getElementById("ticket-form").zendeskTicketForm({
     handleSuccess: function (ticket) {
       alert("Ticket sumbitted! Your ticket ID is " + ticket.id);
@@ -34,7 +33,5 @@ document.addEventListener("DOMContentLoaded", function () {
       }, this);
     }
   });
-
 });
-}
 </script>
