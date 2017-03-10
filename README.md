@@ -17,7 +17,7 @@ Make sure you have jQuery enabled on your site:
 Grab [the minified script](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/jquery/build/jztf.min.js) and include it on your site:
 
 ````html
-<script src="/your/path/to/jztf.min.js"></script>
+<script src="/your/path/to/ztf.min.js"></script>
 ````
 
 Include [zendesk.php](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/jquery/example/zendesk.php) and your customized [config.php](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/jquery/example/config.php) on a server, customize your [form](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/jquery/example/form.html), and write your [initialization](https://github.com/dunxtand/jquery-zendesk-ticket-form/blob/jquery/example/form.html).
