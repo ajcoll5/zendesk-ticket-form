@@ -64,10 +64,14 @@
         return "z_" + encodeURIComponent(key) + "=" + encodeURIComponent(vals[key]);
       }).join("&");
     }
-    function onReadyStateChange (success, failure) {
+    function orsc (success, failure) {
       if (this.readyState === 4) {
-        var json = JSON.parse(this.responseText);
-        this.status === 200 ? success(json) : failure(json);
+        if (this.status === 200) {
+          var json = JSON.parse(this.responseText);
+          success(json);
+        } else {
+          failure(this);
+        }
       }
     }
 
@@ -84,7 +88,7 @@
         } else if (!!json.errors) {
           callbacks.handleErrors(json.errors);
         } else {
-          callbacks.handleFailure(res);
+          callbacks.handleFailure(json);
         }
       }
 
@@ -93,7 +97,7 @@
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.onreadystatechange = function (e) {
-          onReadyStateChange.call(xhr, handleResponse, callbacks.handleFailure);
+          orsc.call(xhr, handleResponse, callbacks.handleFailure);
         }
         xhr.onerror = function (e) {
           callbacks.handleFailure(xhr);
