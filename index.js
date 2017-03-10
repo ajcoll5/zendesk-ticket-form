@@ -1,2 +1,2 @@
-var protoMethod = require("./src/protoMethod.js");
+var protoMethod = require("./src/protoMethod");
 window.HTMLFormElement.prototype.zendeskTicketForm = protoMethod;
