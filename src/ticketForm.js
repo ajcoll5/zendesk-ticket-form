@@ -1,20 +1,43 @@
-module.exports = (function () {
+var ticketForm = (function () {
+  function makeGetChild (nodes) {
+    nodes = [].slice.call(nodes).filter(function (node) {
+      return !!node.attributes && !!node.attributes.id;
+    });
+    return function (id) {
+      var child;
+      nodes.forEach(function (node) {
+        if (node.attributes.id.textContent === id) {
+          child = node;
+        }
+      });
+      return child;
+    }
+  }
+  function attachInputsToForm (form) {
+    var getChild = makeGetChild(form.querySelectorAll("*"));
+    ["name", "reason", "email", "description"]
+    .forEach(function (prop) {
+      form[prop] = getChild(prop);
+    });
+  }
+  function getReasonVal (el) {
+    if (el.constructor === window.HTMLSelectElement) {
+      var selected = el.options[el.selectedIndex];
+      return selected.disabled ? null : selected.value;
+    } else {
+      return el.value;
+    }
+  }
+
   function initializeObject (form, api) {
     var _this, callbacks = {};
-    form.name        = document.getElementById("name");
-    form.email       = document.getElementById("email");
-    form.reason      = document.getElementById("reason");
-    form.description = document.getElementById("description");
-    // form.name        = form.find("#name"),
-    // form.email       = form.find("#email"),
-    // form.reason      = form.find("#reason"),
-    // form.description = form.find("#description");
+    attachInputsToForm(form);
 
     function gatherValues () {
       return {
         name: form.name.value,
         requester: form.email.value,
-        subject: form.reason.value,
+        subject: getReasonVal(form.reason),
         description: form.description.value
       }
     }
@@ -22,10 +45,10 @@ module.exports = (function () {
     _this = {
       init: function () {
         api.setCallbacks(callbacks);
-        form.submit(function (e) {
+        form.onsubmit = function (e) {
           e.preventDefault(); e.stopPropagation();
           api.submit( gatherValues() );
-        });
+        };
       },
       setCallback: function (name, fn) {
         callbacks[name] = fn.bind(form);
@@ -40,3 +63,5 @@ module.exports = (function () {
     new: initializeObject
   }
 })();
+
+module.exports = ticketForm;

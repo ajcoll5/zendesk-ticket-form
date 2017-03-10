@@ -18,7 +18,9 @@
 <script src="/example/jztf.min.js"></script>
 <script type="text/javascript">
 $(function(){
-  $("#ticket-form").zendeskTicketForm({
+  var form = document.getElementById("ticket-form");
+
+  var callbacks = {
     handleSuccess: function (ticket) {
       alert("Ticket sumbitted! Your ticket ID is " + ticket.id);
     },
@@ -33,6 +35,8 @@ $(function(){
         alert(err.message);
       }, this);
     }
-  })
+  }
+
+  form.zendeskTicketForm(callbacks)
 });
 </script>

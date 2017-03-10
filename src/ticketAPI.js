@@ -1,8 +1,14 @@
-module.exports = (function () {
+var ticketAPI = (function () {
   function configureData (vals) {
     return Object.keys(vals).map(function (key) {
       return "z_" + encodeURIComponent(key) + "=" + encodeURIComponent(vals[key]);
     }).join("&");
+  }
+  function onReadyStateChange (success, failure) {
+    if (this.readyState === 4) {
+      var json = JSON.parse(this.responseText);
+      this.status === 200 ? success(json) : failure(json);
+    }
   }
 
   function initializeObject (url, errorHandler) {
@@ -23,18 +29,16 @@ module.exports = (function () {
     }
 
     function submitRequest (values) {
-      var xhr = new XMLHttpRequest();
-      xhr.open("POST", url);
+      var xhr = new window.XMLHttpRequest();
+      xhr.open("POST", url, true);
       xhr.setRequestHeader("Content-Type", "application/json");
-      xhr.onload = function () {
-        var json = JSON.parse(xhr.responseText);
-        if (xhr.status === 200) {
-          handleResponse(json);
-        } else {
-          callbacks.handleFailure(json);
-        }
+      xhr.onreadystatechange = function (e) {
+        onReadyStateChange.call(xhr, handleResponse, callbacks.handleFailure);
       }
-      xhr.send(JSON.stringify(values));
+      xhr.onerror = function (e) {
+        callbacks.handleFailure(xhr);
+      }
+      xhr.send(configureData(values));
     }
 
     return {
@@ -58,3 +62,5 @@ module.exports = (function () {
     new: initializeObject
   }
 })();
+
+module.exports = ticketAPI;
