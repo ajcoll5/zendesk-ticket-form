@@ -1,6 +1,6 @@
 {
   "name": "zendesk-ticket-form",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Module & PHP files for creating a Zendesk ticket submission form",
   "main": "index.js",
   "directories": {
