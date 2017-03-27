@@ -1,7 +1,7 @@
 {
   "name": "zendesk-ticket-form",
   "version": "1.0.2",
-  "description": "JavaScript ES5 module for creating a Zendesk ticket submission form",
+  "description": "Module & PHP files for creating a Zendesk ticket submission form",
   "main": "index.js",
   "directories": {
     "build": "build",
